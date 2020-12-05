@@ -43,44 +43,45 @@ namespace FtB_to_Quaver_Converter
 			if (result == true)
 			{
 				InputFileNameTextBox.Text = openFileDlg.FileName;
+				DifficultyTextBox.Text = GetFileNameFromDirectory(openFileDlg.FileName).Split('.')[0];
 			}
 		}
 
 		private void AudioBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Create OpenFileDialog
-			Microsoft.Win32.OpenFileDialog saveFileDlg = new Microsoft.Win32.OpenFileDialog();
+			Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
 
 			// Set filter for file extension and default file extension  
-			saveFileDlg.DefaultExt = ".mp3";
-			saveFileDlg.Filter = "MP3 file (.mp3)|*.mp3";
+			openFileDlg.DefaultExt = ".mp3";
+			openFileDlg.Filter = "MP3 file (.mp3)|*.mp3";
 
 			// Launch OpenFileDialog by calling ShowDialog method
-			Nullable<bool> result = saveFileDlg.ShowDialog();
+			Nullable<bool> result = openFileDlg.ShowDialog();
 			// Get the selected file name and display in a TextBox.
 			// Load content of file in a TextBlock
 			if (result == true)
 			{
-				AudioFileNameTextBox.Text = saveFileDlg.FileName;
+				AudioFileNameTextBox.Text = openFileDlg.FileName;
 			}
 		}
 
 		private void BackgroundBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Create OpenFileDialog
-			Microsoft.Win32.OpenFileDialog saveFileDlg = new Microsoft.Win32.OpenFileDialog();
+			Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
 
 			// Set filter for file extension and default file extension  
-			saveFileDlg.DefaultExt = ".jpg";
-			saveFileDlg.Filter = "JPEG file (.jpg)|*.jpg";
+			openFileDlg.DefaultExt = ".jpg";
+			openFileDlg.Filter = "JPEG file (.jpg)|*.jpg";
 
 			// Launch OpenFileDialog by calling ShowDialog method
-			Nullable<bool> result = saveFileDlg.ShowDialog();
+			Nullable<bool> result = openFileDlg.ShowDialog();
 			// Get the selected file name and display in a TextBox.
 			// Load content of file in a TextBlock
 			if (result == true)
 			{
-				BackgroundFileNameTextBox.Text = saveFileDlg.FileName;
+				BackgroundFileNameTextBox.Text = openFileDlg.FileName;
 			}
 		}
 		#endregion
@@ -114,6 +115,7 @@ namespace FtB_to_Quaver_Converter
 			bool success = chart.ProcessInputFile(sr);
 			if(success)
 			{
+				chart.MakeChartValid();
 				chart.ExportChart(sw);
 				MessageBox.Show("Success!\nFile was written to the same folder as the input.");
 			}
@@ -144,7 +146,7 @@ namespace FtB_to_Quaver_Converter
 
 		private string GetFileNameFromDirectory(string directory)
 		{
-			return directory.Split('/').Last();
+			return directory.Split('\\').Last();
 		}
 	}
 }

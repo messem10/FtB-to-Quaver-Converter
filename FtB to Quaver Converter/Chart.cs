@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Linq.Expressions;
 
 namespace FtB_to_Quaver_Converter
 {
@@ -14,7 +15,7 @@ namespace FtB_to_Quaver_Converter
 		public string backgroundFile;
 		public string mapID = "-1";
 		public string mapSetId;
-		public string mode = "Mode: Keys7";
+		//public string mode = "Mode: Keys7";
 		public string title;
 		public string artist;
 		public string source;
@@ -73,15 +74,85 @@ namespace FtB_to_Quaver_Converter
 			return false;
 		}
 
+		public void MakeChartValid()
+		{
+			List<NoteEntry> holdNotes = noteEntries.Where(note => note.endTime != null).ToList();
+
+			List<NoteEntry> invalidHoldToHolds = noteEntries.Where(
+					holdNote => noteEntries.Where(
+							otherNote =>
+								otherNote.lane == holdNote.lane &&
+								otherNote.startTime != holdNote.startTime &&
+								otherNote.endTime != null &&
+								(Math.Abs((holdNote.endTime ?? int.MinValue) - otherNote.startTime) <= 36)
+							).Any() == true).ToList();
+
+			List<NoteEntry> invalidHoldToNotes = noteEntries.Where(
+					holdNote => noteEntries.Where(
+							otherNote =>
+								otherNote.lane == holdNote.lane &&
+								otherNote.startTime != holdNote.startTime &&
+								otherNote.endTime == null && // Ensures Holds to Notes
+								(Math.Abs((holdNote.endTime ?? int.MinValue) - otherNote.startTime) <= 72)
+							).Any() == true).ToList();
+
+			invalidHoldToHolds = AddHoldsInInvalidChords(invalidHoldToHolds);
+			invalidHoldToNotes = AddHoldsInInvalidChords(invalidHoldToNotes);
+
+			foreach (NoteEntry invalidHold in invalidHoldToHolds)
+			{
+				invalidHold.endTime -= MinNoteSeparation(invalidHold.endTime, 36);
+			}
+
+			foreach(NoteEntry invalidHold in invalidHoldToNotes)
+			{
+				invalidHold.endTime -= MinNoteSeparation(invalidHold.endTime, 72);
+			}
+		}
+
+		private List<NoteEntry> AddHoldsInInvalidChords(List<NoteEntry> invalidHolds)
+		{
+			List<NoteEntry> otherHolds = noteEntries.Where(
+					otherNote => invalidHolds.Where(
+							holdNote =>
+								holdNote.lane != otherNote.lane &&
+								holdNote.startTime == otherNote.startTime &&
+								otherNote.endTime != null &&
+								holdNote.endTime == otherNote.endTime
+							).Any() == true).ToList();
+
+			return invalidHolds.Concat(otherHolds).ToList();
+		}
+
+		public int MinNoteSeparation(int? timeOfNote, int minGap)
+		{
+			if (timeOfNote == null) return 0;
+
+			int bpmAtTime = bPMEntries.Where(bpm => bpm.startTime <= timeOfNote).Last().bpm;
+			int divisor = 1;
+			int currentSeparation = int.MaxValue;
+
+			int msPerBeat = (int)(((float)bpmAtTime /60)*1000);
+			int prevValue = 0;
+			while(currentSeparation > minGap)
+			{
+				prevValue = currentSeparation;
+				currentSeparation = msPerBeat / divisor;
+				divisor *= 2;
+			}
+
+			return Math.Max(prevValue, minGap);
+		}
+
 		public void ExportChart(StreamWriter sw)
 		{
 			#region Header Information
 			sw.WriteLine("AudioFile: " + audioFileName);
 			sw.WriteLine("SongPreviewTime: 0");
-			sw.WriteLine("BackgroundFile: \'\'");
+			sw.WriteLine("BackgroundFile: " + ((backgroundFile.Length != 0)?backgroundFile:"\'\'"));
 			sw.WriteLine("MapID: " + mapID);
 			sw.WriteLine("MapSetId: " + mapSetId);
-			sw.WriteLine(mode);
+			sw.WriteLine("Mode: Keys7");
 			sw.WriteLine("Title: " + title);
 			sw.WriteLine("Artist: " + artist);
 			sw.WriteLine("Source: " + source);

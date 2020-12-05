@@ -9,9 +9,9 @@ namespace FtB_to_Quaver_Converter
 {
 	public class NoteEntry
 	{
-		string startTime;
-		string endTime;
-		string lane;
+		public int startTime;
+		public int? endTime;
+		public int lane;
 
 		private static char[] separators = new char[] { ' ' };
 
@@ -21,21 +21,21 @@ namespace FtB_to_Quaver_Converter
 			if(temp[0].Contains('-'))
 			{
 				string[] startEnd = temp[0].Split('-');
-				startTime = startEnd[0];
-				endTime = startEnd[1];
+				startTime = int.Parse(startEnd[0]);
+				endTime = ToNullableInt(startEnd[1]);
 			}
 			else
 			{
-				startTime = temp[0];
+				startTime = int.Parse(temp[0]);
 			}
-			lane = temp[2];
+			lane = int.Parse(temp[2]);
 		}
 
 		public NoteEntry(string newLane, string newStartTime, string newEndTime = null)
 		{
-			startTime = newStartTime;
-			endTime = newEndTime;
-			lane = newLane;
+			startTime = int.Parse(newStartTime);
+			endTime = int.Parse(newEndTime);
+			lane = int.Parse(newLane);
 		}
 
 		public void ExportNoteToQuaver(StreamWriter sw)
@@ -44,6 +44,13 @@ namespace FtB_to_Quaver_Converter
 			sw.WriteLine("  Lane: " + lane);
 			if (endTime != null)
 				sw.WriteLine("  EndTime: " + endTime); // Hold note
+		}
+
+		private static int? ToNullableInt(string s)
+		{
+			int i;
+			if (int.TryParse(s, out i)) return i;
+			return null;
 		}
 	}
 }
