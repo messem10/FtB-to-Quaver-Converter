@@ -46,14 +46,14 @@ namespace FtB_to_Quaver_Converter
 			}
 		}
 
-		/*private void OutputBrowseButton_Click(object sender, RoutedEventArgs e)
+		private void AudioBrowseButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Create OpenFileDialog
 			Microsoft.Win32.OpenFileDialog saveFileDlg = new Microsoft.Win32.OpenFileDialog();
 
 			// Set filter for file extension and default file extension  
-			saveFileDlg.DefaultExt = ".qua";
-			saveFileDlg.Filter = "Quaver chart file (.qua)|*.qua";
+			saveFileDlg.DefaultExt = ".mp3";
+			saveFileDlg.Filter = "MP3 file (.mp3)|*.mp3";
 
 			// Launch OpenFileDialog by calling ShowDialog method
 			Nullable<bool> result = saveFileDlg.ShowDialog();
@@ -61,16 +61,35 @@ namespace FtB_to_Quaver_Converter
 			// Load content of file in a TextBlock
 			if (result == true)
 			{
-				OutputFileNameTextBox.Text = saveFileDlg.FileName;
+				AudioFileNameTextBox.Text = saveFileDlg.FileName;
 			}
-		} */
+		}
+
+		private void BackgroundBrowseButton_Click(object sender, RoutedEventArgs e)
+		{
+			// Create OpenFileDialog
+			Microsoft.Win32.OpenFileDialog saveFileDlg = new Microsoft.Win32.OpenFileDialog();
+
+			// Set filter for file extension and default file extension  
+			saveFileDlg.DefaultExt = ".jpg";
+			saveFileDlg.Filter = "JPEG file (.jpg)|*.jpg";
+
+			// Launch OpenFileDialog by calling ShowDialog method
+			Nullable<bool> result = saveFileDlg.ShowDialog();
+			// Get the selected file name and display in a TextBox.
+			// Load content of file in a TextBlock
+			if (result == true)
+			{
+				BackgroundFileNameTextBox.Text = saveFileDlg.FileName;
+			}
+		}
 		#endregion
 
 		private void SaveButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (InputFileNameTextBox.Text.Length == 0)
+			if (!CanConvert())
 				return;
-
+			
 			Convert();
 		}
 
@@ -80,7 +99,18 @@ namespace FtB_to_Quaver_Converter
 			StreamReader sr = new StreamReader(InputFileNameTextBox.Text);
 			StreamWriter sw = new StreamWriter(InputFileNameTextBox.Text.Replace(".txt", ".qua"));
 
-			Chart chart = new Chart();
+			Chart chart = new Chart(
+				GetFileNameFromDirectory(AudioFileNameTextBox.Text),
+				"0",
+				GetFileNameFromDirectory(BackgroundFileNameTextBox.Text),
+				TitleTextBox.Text,
+				ArtistTextBox.Text,
+				SourceTextBox.Text,
+				TagsTextBox.Text,
+				CreatorTextBox.Text,
+				DifficultyTextBox.Text
+			);
+
 			bool success = chart.ProcessInputFile(sr);
 			if(success)
 			{
@@ -91,6 +121,30 @@ namespace FtB_to_Quaver_Converter
 			{
 				MessageBox.Show("Incorrect FtB Chart File.\nPlease use the game file not the editor file.", "Wrong FtB file type", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private bool CanConvert()
+		{
+			if (InputFileNameTextBox.Text == null)
+			{
+				MessageBox.Show("No input game file was provided.", "No input file", MessageBoxButton.OK, MessageBoxImage.Error);
+				return false;
+			}
+
+			if (AudioFileNameTextBox.Text == null)
+			{
+				MessageBox.Show("No audio file was provided.", "No audio file", MessageBoxButton.OK, MessageBoxImage.Error);
+				return false;
+			}
+
+
+
+			return true;
+		}
+
+		private string GetFileNameFromDirectory(string directory)
+		{
+			return directory.Split('/').Last();
 		}
 	}
 }

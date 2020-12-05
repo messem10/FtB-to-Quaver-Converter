@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FtB_to_Quaver_Converter"
         mc:Ignorable="d"
-        Title="Feel the Beats to Quaver Converter" Height="350" Width="800">
+        Title="Feel the Beats to Quaver Converter" Height="450" Width="800">
     <Grid>
-        <Grid Margin="0,25,0,0">
+        <Grid Margin="0,10,0,0">
             <TextBlock Text="Feel the Beats Input" Margin="115,10,115,252" />
             <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="AUTO" Margin="25">
                 <Grid>
@@ -18,18 +18,58 @@
                             Margin="450,10,10,0" VerticalAlignment="Top" Width="100" Click="InputBrowseButton_Click" Height="20"/>
                 </Grid>
             </Border>
-            <!--<Grid Margin="0,100,0,0">
-                <TextBlock Text="Quaver Output" Margin="115,10,115,152" />
-                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="AUTO" Margin="25">
-                    <Grid>
-                        <TextBox HorizontalAlignment="Left" Height="20" Margin="10,10,10,10" TextWrapping="Wrap" 
-                             Focusable="False"
-                             Text="TextBox" VerticalAlignment="Top" Width="436" x:Name="OutputFileNameTextBox"/>
-                        <Button x:Name="OutputBrowseButton" Content="Browse" HorizontalAlignment="Left"   
-                            Margin="450,10,10,0" VerticalAlignment="Top" Width="100" Click="OutputBrowseButton_Click" Height="20"/>
+            <Grid Margin="0,65,0,0">
+                <Grid>
+                    <TextBlock Text="Audio File" Margin="115,10,115,152" />
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="AUTO" Margin="25">
+                        <Grid>
+                            <TextBox HorizontalAlignment="Left" Height="20" Margin="10,10,10,10" TextWrapping="Wrap" 
+                                 Focusable="False"
+                                 Text="" VerticalAlignment="Top" Width="436" x:Name="AudioFileNameTextBox"/>
+                            <Button x:Name="AudioBrowseButton" Content="Browse" HorizontalAlignment="Left"   
+                                Margin="450,10,10,0" VerticalAlignment="Top" Width="100" Click="AudioBrowseButton_Click" Height="20"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Margin="0,66,0,-0.333">
+                    <TextBlock Text="Background File" Margin="115,10,115,152" />
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="AUTO" Margin="25">
+                        <Grid>
+                            <TextBox HorizontalAlignment="Left" Height="20" Margin="10,10,10,10" TextWrapping="Wrap" 
+                                Focusable="False"
+                                Text="" VerticalAlignment="Top" Width="436" x:Name="BackgroundFileNameTextBox"/>
+                            <Button x:Name="BackgroundBrowseButton" Content="Browse" HorizontalAlignment="Left"   
+                            Margin="450,10,10,0" VerticalAlignment="Top" Width="100" Click="BackgroundBrowseButton_Click" Height="20"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Margin="0,93,0,-0.333">
+                    <Grid Margin="120,74,350,135.667">
+                        <TextBlock Text="Title:" Height="20" Width="40" HorizontalAlignment="Left" Name="TitleLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="40,0,0,0" Width="275" VerticalAlignment="Top" HorizontalAlignment="Left" Name="TitleTextBox" />
                     </Grid>
-                </Border>
-            </Grid>-->
+                    <Grid Margin="120,100,350,109.667">
+                        <TextBlock Text="Artist:" Height="20" Width="40" HorizontalAlignment="Left" Name="ArtistLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="40,0,0,0" Width="275" VerticalAlignment="Top" HorizontalAlignment="Left" Name="ArtistTextBox" />
+                    </Grid>
+                    <Grid Margin="120,126,350,83.667">
+                        <TextBlock Text="Source:" Height="20" Width="40" HorizontalAlignment="Left" Name="SourceLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="40,0,0,0" Width="275" VerticalAlignment="Top" HorizontalAlignment="Left" Name="SourceTextBox" />
+                    </Grid>
+                    <Grid Margin="120,152,350,57.667">
+                        <TextBlock Text="Tags:" Height="20" Width="40" HorizontalAlignment="Left" Name="TagsLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="40,0,0,0" Width="275" VerticalAlignment="Top" HorizontalAlignment="Left" Name="TagsTextBox" />
+                    </Grid>
+                    <Grid Margin="478,74,75,136">
+                        <TextBlock Text="Creator:" Height="20" Width="50" HorizontalAlignment="Left" Name="CreatorLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="50,0,0,0" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Name="CreatorTextBox" />
+                    </Grid>
+                    <Grid Margin="478,100,75,110">
+                        <TextBlock Text="Difficulty:" Height="20" Width="50" HorizontalAlignment="Left" Name="DifficultyLabel" VerticalAlignment="Top" />
+                        <TextBox Height="20" Margin="50,0,0,0" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Name="DifficultyTextBox" />
+                    </Grid>
+                </Grid>
+            </Grid>
             <Button x:Name="SaveButton" Content="Convert" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Click="SaveButton_Click" Margin="0,0,0,20"/>
 
         </Grid>

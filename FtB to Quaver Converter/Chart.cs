@@ -29,22 +29,19 @@ namespace FtB_to_Quaver_Converter
 		public List<BPMEntry> bPMEntries = new List<BPMEntry>();
 		public List<NoteEntry> noteEntries = new List<NoteEntry>();
 
-		public Chart(string newAudioFileName, string newSongPreviewTime, string newBackgroundFile, string newMapID, string newMapSetId, 
+		public Chart(string newAudioFileName, string newSongPreviewTime, string newBackgroundFile, 
 				string newTitle, string newArtist, string newSource, string newTags, string newCreator, 
-				string newDifficultyName, string newDescription)
+				string newDifficultyName)
 		{
 			audioFileName = newAudioFileName;
 			songPreviewTime = newSongPreviewTime;
 			backgroundFile = newBackgroundFile;
-			mapID = newMapID;
-			mapSetId = newMapSetId;
 			title = newTitle;
 			artist = newArtist;
 			source = newSource;
 			tags = newTags;
 			creator = newCreator;
 			difficultyName = newDifficultyName;
-			description = newDescription;
 		}
 
 		public Chart()
