@@ -106,7 +106,7 @@ namespace FtB_to_Quaver_Converter
 
 			foreach(NoteEntry invalidHold in invalidHoldToNotes)
 			{
-				invalidHold.endTime -= MinNoteSeparation(invalidHold.endTime, 72);
+				invalidHold.endTime -= MinNoteSeparation(invalidHold.endTime, 54);
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace FtB_to_Quaver_Converter
 
 		public int MinNoteSeparation(int? timeOfNote, int minGap)
 		{
-			if (timeOfNote == null) return 0;
+			if (timeOfNote == null || timeOfNote <= 36) return 0;
 
 			int bpmAtTime = bPMEntries.Where(bpm => bpm.startTime <= timeOfNote).Last().bpm;
 			int divisor = 1;
