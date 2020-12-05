@@ -43,7 +43,8 @@ namespace FtB_to_Quaver_Converter
 			if (result == true)
 			{
 				InputFileNameTextBox.Text = openFileDlg.FileName;
-				DifficultyTextBox.Text = GetFileNameFromDirectory(openFileDlg.FileName).Split('.')[0];
+				string difficultyName = GetFileNameFromDirectory(openFileDlg.FileName).Split('.')[0].Trim();
+				DifficultyTextBox.Text = difficultyName.First().ToString().ToUpper() + difficultyName.Substring(1); // Uppercase the first letter of the string.
 			}
 		}
 
