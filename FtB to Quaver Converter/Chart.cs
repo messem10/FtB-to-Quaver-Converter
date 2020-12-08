@@ -128,16 +128,16 @@ namespace FtB_to_Quaver_Converter
 		{
 			if (timeOfNote == null || timeOfNote <= 36) return 0;
 
-			int bpmAtTime = bPMEntries.Where(bpm => bpm.startTime <= timeOfNote).Last().bpm;
+			float bpmAtTime = bPMEntries.Where(bpm => bpm.startTime <= timeOfNote).Last().bpm;
 			int divisor = 1;
 			int currentSeparation = int.MaxValue;
 
-			int msPerBeat = (int)(((float)bpmAtTime /60)*1000);
+			float msPerBeat = (int)((bpmAtTime /60)*1000);
 			int prevValue = 0;
 			while(currentSeparation > minGap)
 			{
 				prevValue = currentSeparation;
-				currentSeparation = msPerBeat / divisor;
+				currentSeparation = (int)Math.Round((msPerBeat / divisor), 0, MidpointRounding.AwayFromZero);
 				divisor *= 2;
 			}
 

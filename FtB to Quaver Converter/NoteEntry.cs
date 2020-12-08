@@ -21,12 +21,12 @@ namespace FtB_to_Quaver_Converter
 			if(temp[0].Contains('-'))
 			{
 				string[] startEnd = temp[0].Split('-');
-				startTime = int.Parse(startEnd[0]);
-				endTime = ToNullableInt(startEnd[1]);
+				startTime = RoundIfNeeded(startEnd[0]);
+				endTime = RoundIfNeeded(startEnd[1]);
 			}
 			else
 			{
-				startTime = int.Parse(temp[0]);
+				startTime = RoundIfNeeded(temp[0]);
 			}
 			lane = int.Parse(temp[2]);
 		}
@@ -51,6 +51,11 @@ namespace FtB_to_Quaver_Converter
 			int i;
 			if (int.TryParse(s, out i)) return i;
 			return null;
+		}
+
+		private static int RoundIfNeeded(string s)
+		{
+			return (int)Math.Round(float.Parse(s), 0, MidpointRounding.AwayFromZero);
 		}
 	}
 }

@@ -9,23 +9,23 @@ namespace FtB_to_Quaver_Converter
 {
 	public class BPMEntry
 	{
-		public int bpm;
-		public int startTime;
+		public float bpm;
+		public float startTime;
 
 		private static char[] separators = new char[] { ' ' };
 
 		public BPMEntry(string newBPM, string newStartTime)
 		{
-			bpm = int.Parse(newBPM);
-			startTime = int.Parse(newStartTime);
+			bpm = float.Parse(newBPM);
+			startTime = float.Parse(newStartTime);
 		}
 
 		public BPMEntry(string bpmEntry)
 		{
 			string[] tempArray = bpmEntry.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 			// tempArray[0] is always "BPM" without quotes
-			startTime = int.Parse(tempArray[1]);
-			bpm = int.Parse(tempArray[2]);
+			startTime = float.Parse(tempArray[1]);
+			bpm = float.Parse(tempArray[2]);
 		}
 
 		public void ExportBPMToQuaver(StreamWriter sw)
